@@ -7,7 +7,11 @@ import com.example.moviemanagement.repository.ManagerRepo;
 import com.example.moviemanagement.service.MovieManage;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +29,18 @@ public class MovieManageImpl implements MovieManage {
        return new ResponseDto("00",
                "Success",
                null);
+    }
+
+    @Override
+    public ResponseDto getAllMovies() {
+        List<Movie> movieList = managerRepo.findAll();
+        if (movieList.isEmpty()){
+            return new ResponseDto("02",
+                    "No Movies Found",
+                     null);
+        }
+        return  new ResponseDto("00",
+                "Success",
+                modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
     }
 }
