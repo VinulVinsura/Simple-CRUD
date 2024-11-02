@@ -8,4 +8,7 @@ import java.util.List;
 public interface MovieManage {
     ResponseDto addMovie(MovieDto movieDto);
     ResponseDto getAllMovies();
+    ResponseDto getMovieByImdb(String imdb);
+    ResponseDto deleteMovie(String imdb);
+
 }

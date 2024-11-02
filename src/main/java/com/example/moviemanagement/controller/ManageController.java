@@ -25,4 +25,14 @@ public class ManageController {
     public ResponseEntity<ResponseDto> getAllMovies(){
         return ResponseEntity.ok(manageService.getAllMovies());
     }
+
+    @GetMapping("/movies/{imdb}") //get movie by imdb
+    public ResponseEntity<ResponseDto> getMovieByImdb(@PathVariable String imdb){
+       return ResponseEntity.ok(manageService.getMovieByImdb(imdb));
+    }
+
+    @DeleteMapping("/movies/{imdb}") //delete movie by imdb
+    public ResponseEntity<ResponseDto> deleteMovie(@PathVariable String imdb){
+       return   ResponseEntity.ok(manageService.deleteMovie(imdb));
+    }
 }

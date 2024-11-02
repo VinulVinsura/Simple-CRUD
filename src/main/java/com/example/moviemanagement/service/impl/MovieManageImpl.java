@@ -43,4 +43,32 @@ public class MovieManageImpl implements MovieManage {
                 "Success",
                 modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
     }
+
+    @Override
+    public ResponseDto getMovieByImdb(String imdb) {
+        List<Movie> movieList = managerRepo.findByImdb(imdb);
+        if (movieList.isEmpty()){
+            return new ResponseDto("02",
+                    "No Such Movie Found",
+                    null);
+
+        }
+        return new ResponseDto("00",
+                "Success",
+                modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
+
+    }
+
+    @Override
+    public ResponseDto deleteMovie(String imdb) {
+        if (managerRepo.existsByImdb(imdb)){
+            managerRepo.deleteAllByImdb(imdb);
+            return new ResponseDto("00",
+                    "Success",
+                    null);
+        }
+        return new ResponseDto("02",
+                "No Such Movie Exists",
+                null);
+    }
 }
