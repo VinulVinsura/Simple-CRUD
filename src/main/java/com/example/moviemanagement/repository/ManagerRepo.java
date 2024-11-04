@@ -6,12 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-@Transactional
+
 public interface ManagerRepo extends JpaRepository<Movie,Long> {
 
     boolean existsByImdb(String imdb);
     List<Movie> findByImdb(String imdb);
     void deleteAllByImdb(String imdb);
+
+    Optional<Movie> findByImdbEquals(String imdb);
+
+    void deleteByImdbEquals(String imdb);
 }
