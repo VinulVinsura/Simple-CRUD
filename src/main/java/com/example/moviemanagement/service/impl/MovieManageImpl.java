@@ -41,29 +41,41 @@ public class MovieManageImpl implements MovieManage {
 
     @Override
     public ResponseDto getAllMovies() {
-        List<Movie> movieList = managerRepo.findAll();
-        if (movieList.isEmpty()){
-            return new ResponseDto("02",
-                    "No Movies Found",
-                     null);
+        try {
+            List<Movie> movieList = managerRepo.findAll();
+            if (movieList.isEmpty()){
+                return new ResponseDto("02",
+                        "No Movies Found",
+                        null);
+            }
+            return  new ResponseDto("00",
+                    "Success",
+                    modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
+
+        }catch (BadRequestException ex){
+            throw new BadRequestException();
         }
-        return  new ResponseDto("00",
-                "Success",
-                modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
+
     }
 
     @Override
     public ResponseDto getMovieByImdb(String imdb) {
-        List<Movie> movieList = managerRepo.findByImdb(imdb);
-        if (movieList.isEmpty()){
-            return new ResponseDto("02",
-                    "No Such Movie Found",
-                    null);
+        try {
+            List<Movie> movieList = managerRepo.findByImdb(imdb);
+            if (movieList.isEmpty()){
+                return new ResponseDto("02",
+                        "No Such Movie Found",
+                        null);
 
+            }
+            return new ResponseDto("00",
+                    "Success",
+                    modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
+
+
+        }catch (BadRequestException ex){
+            throw  new BadRequestException();
         }
-        return new ResponseDto("00",
-                "Success",
-                modelMapper.map(movieList,new TypeToken<List<MovieDto>>(){}.getType()));
 
     }
 
